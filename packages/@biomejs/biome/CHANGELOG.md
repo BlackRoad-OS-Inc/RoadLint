@@ -1,5 +1,45 @@
 # @biomejs/biome
 
+## 2.4.9
+
+### Patch Changes
+
+- [#9567](https://github.com/biomejs/biome/pull/9567) [`b7ab931`](https://github.com/biomejs/biome/commit/b7ab931be14f5e61e5716a345c7ef0da59abb016) Thanks [@ematipico](https://github.com/ematipico)! - Fixed [#7211](https://github.com/biomejs/biome/issues/7211): [`useOptionalChain`](https://biomejs.dev/linter/rules/use-optional-chain/) now detects negated logical OR chains. The following code is now considered invalid:
+
+  ```js
+  !foo || !foo.bar;
+  ```
+
+- [#8670](https://github.com/biomejs/biome/pull/8670) [`607ebf9`](https://github.com/biomejs/biome/commit/607ebf9eacec1480f57e06deea46c99174b000a2) Thanks [@tt-a1i](https://github.com/tt-a1i)! - Fixed [#8345](https://github.com/biomejs/biome/issues/8345): [`useAdjacentOverloadSignatures`](https://biomejs.dev/linter/rules/use-adjacent-overload-signatures/) no longer reports false positives for static and instance methods with the same name. Static methods and instance methods are now treated as separate overload groups.
+
+  ```ts
+  class Kek {
+    static kek(): number {
+      return 0;
+    }
+    another(): string {
+      return "";
+    }
+    kek(): number {
+      return 1;
+    } // no longer reported as non-adjacent
+  }
+  ```
+
+- [#9476](https://github.com/biomejs/biome/pull/9476) [`97b80a8`](https://github.com/biomejs/biome/commit/97b80a8b017dc3a56542bfe01b6dadab081729bf) Thanks [@masterkain](https://github.com/masterkain)! - Fixed [`#9475`](https://github.com/biomejs/biome/issues/9475): Fixed a panic when Biome analyzed ambient TypeScript modules containing class constructor, getter, or setter signatures that reference local type aliases. Biome now handles these declarations without crashing during semantic analysis.
+
+- [#9553](https://github.com/biomejs/biome/pull/9553) [`0cd5298`](https://github.com/biomejs/biome/commit/0cd5298fecae7961c458b026b37f80a8ab98880f) Thanks [@dyc3](https://github.com/dyc3)! - Fixed a bug where enabling the rules of a whole group, would enable rules that belonged to a domain under the same group.
+
+  For example, `linter.rules.correctness = "error"` no longer enables React- or Qwik-specific correctness rules unless `linter.domains.react`, `linter.domains.qwik`, or an explicit rule config also enables them, or their relative dependencies are installed.
+
+- [#9550](https://github.com/biomejs/biome/pull/9550) [`d4e3d6e`](https://github.com/biomejs/biome/commit/d4e3d6e9241e3db7340dd3d236fcbd65c24f5673) Thanks [@dyc3](https://github.com/dyc3)! - Fixed [#9548](https://github.com/biomejs/biome/issues/9548): Biome now parses conditional expressions whose consequent is an arrow function returning a parenthesized object expression.
+
+- [#8696](https://github.com/biomejs/biome/pull/8696) [`a7c19cc`](https://github.com/biomejs/biome/commit/a7c19ccfebafb6d7aa1156d4e9a9ec057ba370e9) Thanks [@Faizanq](https://github.com/Faizanq)! - Fixed [#8685](https://github.com/biomejs/biome/issues/8685) where `noUselessLoneBlockStatements` would remove empty blocks containing comments. The rule now preserves these blocks since comments may contain important information like TODOs or commented-out code.
+
+- [#9455](https://github.com/biomejs/biome/pull/9455) [`1710cf1`](https://github.com/biomejs/biome/commit/1710cf1f0ebf6d8326d4754e27274441d38b175d) Thanks [@omar-y-abdi](https://github.com/omar-y-abdi)! - Fixed [#9174](https://github.com/biomejs/biome/issues/9174): [`useExpect`](https://biomejs.dev/linter/rules/use-expect/) now correctly rejects [asymmetric matchers](https://vitest.dev/api/expect.html#expect-stringcontaining) in Vitest or Jest like `expect.stringContaining()`, `expect.objectContaining()`, and utilities like `expect.extend()` that are not valid assertions. Previously these constructs caused false negatives, allowing tests without real assertions to pass the lint rule.
+
+- [#9555](https://github.com/biomejs/biome/pull/9555) [`8a3647b`](https://github.com/biomejs/biome/commit/8a3647b52d0a5dc10ce40b6d9cd7d437e74efeb9) Thanks [@ematipico](https://github.com/ematipico)! - Fixed [`#188`](https://github.com/biomejs/biome-zed/issues/188): the Biome Language Server no longer panics when open files change abruptly, such as during git branch checkouts.
+
 ## 2.4.8
 
 ### Patch Changes
